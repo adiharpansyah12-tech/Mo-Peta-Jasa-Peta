@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesan Peta | Mo-PETA</title>
+  <link rel="stylesheet" href="style.css" />
+  <script>
+    /* ── Fungsi form kondisional ──────────────────────────────────────
+       Ditulis di sini (bukan di script.js) supaya bekerja meskipun
+       Supabase SDK belum selesai dimuat atau belum dikonfigurasi.
+    ────────────────────────────────────────────────────────────────── */
+    function handleJenisPeta(val) {
+      var secLokasi  = document.getElementById('sectionLokasi');
+      var secSampel  = document.getElementById('sectionSampel');
+      var formFooter = document.getElementById('formFooter');
+      if (val === 'Peta Lokasi Penelitian') {
+        secLokasi.style.display  = 'block';
+        secSampel.style.display  = 'none';
+        formFooter.style.display = 'flex';
+        document.getElementById('subWilayah').style.display = 'none';
+        document.getElementById('subTempat').style.display  = 'none';
+      } else {
+        secLokasi.style.display  = 'none';
+        secSampel.style.display  = 'block';
+        formFooter.style.display = 'none';
+      }
+    }
+
+    function handleJenisLokasi(val) {
+      document.getElementById('subWilayah').style.display = (val === 'Wilayah')     ? 'block' : 'none';
+      document.getElementById('subTempat').style.display  = (val === 'Nama Tempat') ? 'block' : 'none';
+    }
+
+    function copyOrderId() {
+      var id  = document.getElementById('displayOrderId').textContent;
+      var btn = document.querySelector('.btn-copy');
+      navigator.clipboard.writeText(id).then(function() {
+        if (btn) { btn.textContent = '✅ Disalin!'; setTimeout(function(){ btn.textContent = '📋 Salin ID Pesanan'; }, 2000); }
+      }).catch(function() { prompt('Salin ID pesanan Anda:', id); });
+    }
+
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('nav-open');
+    }
+  </script>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🗺️</div>
+      <span>Mo-PETA</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="pesan.html" class="active">Pesan</a></li>
+      <li><a href="lacak.html">Lacak Pesanan</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Form Pemesanan Peta</h1>
+    <p>Isi formulir di bawah dengan lengkap agar peta dapat segera diproses</p>
+  </div>
+
+  <!-- FORM SECTION -->
+  <div class="form-section">
+
+    <!-- SUCCESS BOX (tampil setelah submit berhasil) -->
+    <div class="success-box" id="successBox">
+      <div class="checkmark">✅</div>
+      <h3>Pesanan Berhasil Dikirim!</h3>
+      <p>Catat ID pesanan Anda untuk melacak progress pembuatan peta.</p>
+      <div class="order-id-display">
+        <div class="id-label">ID Pesanan Anda:</div>
+        <div class="id-value" id="displayOrderId">PETA-XXXX</div>
+      </div>
+      <button class="btn-copy" onclick="copyOrderId()">📋 Salin ID Pesanan</button>
+      <br/><br/>
+      <a href="lacak.html" class="btn-primary" style="text-decoration:none; font-size:0.9rem;">Lacak Pesanan →</a>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="form-card" id="formCard">
+      <form id="orderForm" novalidate>
+
+        <!-- BAHASA -->
+        <div class="form-group">
+          <label>Bahasa Peta <span class="required">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="bahasa" value="Indonesia" required />
+              <span>🇮🇩 Indonesia</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="bahasa" value="Inggris" />
+              <span>🇬🇧 Inggris</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- NAMA -->
+        <div class="form-group">
+          <label for="nama">Nama Lengkap <span class="required">*</span></label>
+          <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda" required />
+        </div>
+
+        <!-- NIM -->
+        <div class="form-group">
+          <label for="nim">NIM <span class="required">*</span></label>
+          <input type="text" id="nim" placeholder="Masukkan NIM Anda" required />
+        </div>
+
+        <!-- PROGRAM STUDI -->
+        <div class="form-group">
+          <label for="prodi">Program Studi / Jurusan <span class="required">*</span></label>
+          <input type="text" id="prodi" placeholder="Contoh: Ilmu Lingkungan, Geografi, dll." required />
+        </div>
+
+        <!-- JENIS PETA -->
+        <div class="form-group">
+          <label>Jenis Peta <span class="required">*</span></label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="jenisPeta" value="Peta Lokasi Penelitian"
+                     onchange="handleJenisPeta(this.value)" required />
+              <span>📍 Peta Lokasi Penelitian</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="jenisPeta" value="Peta Titik Pengambilan Sampel"
+                     onchange="handleJenisPeta(this.value)" />
+              <span>🔬 Peta Titik Pengambilan Sampel</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- SEKSI PETA LOKASI PENELITIAN (tampil jika pilihan di atas dipilih) -->
+        <div id="sectionLokasi" style="display:none;">
+          <div class="conditional-section" style="display:block;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label>Jenis Lokasi <span class="required">*</span></label>
+              <div class="radio-group">
+                <label class="radio-option">
+                  <input type="radio" name="jenisLokasi" value="Wilayah"
+                         onchange="handleJenisLokasi(this.value)" />
+                  <span>🗺️ Wilayah (Kecamatan / Kabupaten / Kota)</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="jenisLokasi" value="Nama Tempat"
+                         onchange="handleJenisLokasi(this.value)" />
+                  <span>🏛️ Nama Tempat (Institusi / Lembaga)</span>
+                </label>
+              </div>
+
+              <!-- Sub: Wilayah -->
+              <div id="subWilayah" style="display:none; margin-top:16px;">
+                <label for="namaWilayah">Nama Wilayah <span class="required">*</span></label>
+                <input type="text" id="namaWilayah"
+                       placeholder="Contoh: Kecamatan Rappocini, Kota Makassar" />
+              </div>
+
+              <!-- Sub: Nama Tempat -->
+              <div id="subTempat" style="display:none; margin-top:16px;">
+                <label for="namaTempat">Nama Institusi / Lembaga <span class="required">*</span></label>
+                <input type="text" id="namaTempat"
+                       placeholder="Contoh: Universitas Hasanuddin, RSUD Labuang Baji" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEKSI PETA TITIK SAMPEL → Arahkan ke WhatsApp -->
+        <div id="sectionSampel" style="display:none;">
+          <div class="wa-redirect-box" style="display:block;">
+            <p>Untuk pemesanan <strong>Peta Titik Pengambilan Sampel</strong>, silakan lanjutkan
+               pemesanan melalui WhatsApp agar kami dapat mendiskusikan detail koordinat titik sampel Anda.</p>
+            <!-- Ganti nomor WhatsApp di bawah -->
+            <a href="https://wa.me/6281234567890?text=Halo%20Mo-PETA%2C%20saya%20ingin%20memesan%20Peta%20Titik%20Pengambilan%20Sampel"
+               target="_blank" class="btn-wa">
+              💬 Pesan via WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <!-- TOMBOL SUBMIT -->
+        <div class="form-footer" id="formFooter">
+          <button type="submit" class="btn-submit" id="submitBtn">Kirim Pesanan →</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Mo-PETA</div>
+    <p>Jasa Pembuatan Peta Penelitian Profesional</p>
+    <div class="footer-contacts">
+      <a href="https://wa.me/6281275540985" target="_blank" class="contact-btn wa">💬 WhatsApp</a>
+      <a href="https://instagram.com/mopeta.official" target="_blank" class="contact-btn ig">📸 Instagram</a>
+    </div>
+    <p class="copyright">© 2025 Mo-PETA. All rights reserved.</p>
+  </footer>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

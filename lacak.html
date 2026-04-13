@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lacak Pesanan | Mo-PETA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🗺️</div>
+      <span>Mo-PETA</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Beranda</a></li>
+      <li><a href="pesan.html">Pesan</a></li>
+      <li><a href="lacak.html" class="active">Lacak Pesanan</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1>Lacak Pesanan</h1>
+    <p>Masukkan ID pesanan atau NIM Anda untuk melihat status dan riwayat pesanan</p>
+  </div>
+
+  <div class="track-section">
+
+    <!-- LACAK BERDASARKAN ID -->
+    <div class="track-card">
+      <h3>🔍 Lacak Status Pesanan</h3>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">Masukkan ID pesanan yang Anda terima setelah melakukan pemesanan.</p>
+      <div class="input-row">
+        <input type="text" id="inputOrderId" placeholder="Contoh: PETA-A1B2C3" style="text-transform:uppercase;" />
+        <button class="btn-search" onclick="lacakPesanan()">Lacak</button>
+      </div>
+      <div id="lacakResult" class="result-box"></div>
+    </div>
+
+    <!-- RIWAYAT BERDASARKAN NIM -->
+    <div class="track-card">
+      <h3>📋 Riwayat Pesanan Saya</h3>
+      <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">Masukkan NIM Anda untuk melihat semua riwayat pesanan peta.</p>
+      <div class="nim-search-row">
+        <input type="text" id="inputNim" placeholder="Masukkan NIM Anda" />
+        <button class="btn-search" onclick="cariRiwayat()">Cari</button>
+      </div>
+      <div id="riwayatContainer">
+        <div class="empty-state">
+          <div class="empty-icon">📭</div>
+          <p>Masukkan NIM untuk melihat riwayat pesanan Anda</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Mo-PETA</div>
+    <p>Jasa Pembuatan Peta Penelitian Profesional</p>
+    <div class="footer-contacts">
+      <a href="https://wa.me/6281234567890" target="_blank" class="contact-btn wa">💬 WhatsApp</a>
+      <a href="https://instagram.com/mopeta.official" target="_blank" class="contact-btn ig">📸 Instagram</a>
+    </div>
+    <p class="copyright">© 2025 Mo-PETA. All rights reserved.</p>
+  </footer>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('nav-open');
+    }
+    document.addEventListener('click', function(e) {
+      var nav = document.getElementById('navLinks');
+      if (nav && !nav.contains(e.target) && !e.target.closest('.hamburger')) {
+        nav.classList.remove('nav-open');
+      }
+    });
+  </script>
+</body>
+</html>

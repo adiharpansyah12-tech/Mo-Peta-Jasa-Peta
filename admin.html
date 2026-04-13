@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | Mo-PETA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="loginScreen" class="admin-login-screen">
+    <div class="admin-login-card">
+      <div class="admin-login-logo">
+        <div class="logo-icon" style="width:52px;height:52px;font-size:26px;margin:0 auto 12px;">🗺️</div>
+        <h2>Mo-PETA Admin</h2>
+        <p>Masukkan kata sandi untuk mengakses panel admin</p>
+      </div>
+      <div class="form-group" style="margin-bottom:16px;">
+        <label for="adminPassword">Kata Sandi Admin</label>
+        <input type="password" id="adminPassword" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <div id="loginError" class="alert alert-error" style="display:none;margin-bottom:14px;">
+        Kata sandi salah. Silakan coba lagi.
+      </div>
+      <button class="btn-submit" style="width:100%;" onclick="doLogin()">Masuk ke Panel Admin</button>
+      <div style="margin-top:20px;text-align:center;">
+        <a href="index.html" style="color:var(--text-muted);font-size:0.85rem;text-decoration:none;">← Kembali ke Beranda</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL (tersembunyi sampai login) -->
+  <div id="adminPanel" style="display:none;">
+
+    <!-- ADMIN NAV -->
+    <nav style="background:var(--primary-dark);">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🗺️</div>
+        <span>Mo-PETA</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:16px;">
+        <span style="color:rgba(255,255,255,0.7);font-size:0.85rem;">🔐 Mode Admin</span>
+        <button class="admin-logout-btn" onclick="doLogout()">Keluar</button>
+      </div>
+    </nav>
+
+    <!-- ADMIN HEADER -->
+    <div class="page-header">
+      <h1>Panel Admin</h1>
+      <p>Kelola dan perbarui status pesanan peta</p>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="admin-stats-bar" id="adminStatsBar">
+      <div class="stat-item"><div class="stat-num" id="statTotal">-</div><div class="stat-label">Total Pesanan</div></div>
+      <div class="stat-item menunggu-stat"><div class="stat-num" id="statMenunggu">-</div><div class="stat-label">Menunggu</div></div>
+      <div class="stat-item diproses-stat"><div class="stat-num" id="statDiproses">-</div><div class="stat-label">Diproses</div></div>
+      <div class="stat-item selesai-stat"><div class="stat-num" id="statSelesai">-</div><div class="stat-label">Selesai</div></div>
+      <div class="stat-item ditolak-stat"><div class="stat-num" id="statDitolak">-</div><div class="stat-label">Ditolak</div></div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="admin-controls">
+      <div class="admin-search-row">
+        <input type="text" id="adminSearch" placeholder="Cari nama, NIM, atau ID pesanan..." oninput="filterTable()" />
+        <select id="filterStatus" onchange="filterTable()">
+          <option value="">Semua Status</option>
+          <option value="Menunggu">⏳ Menunggu</option>
+          <option value="Diproses">⚙️ Diproses</option>
+          <option value="Selesai">✅ Selesai</option>
+          <option value="Ditolak">❌ Ditolak</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="realtime-indicator" style="font-size:0.8rem;">🟢 <span>Real-time aktif</span></span>
+        <button class="btn-search" onclick="loadAllPesanan()">↻ Muat Ulang</button>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="admin-table-wrap">
+      <div id="adminTableContainer">
+        <div class="empty-state" style="padding:60px 0;">
+          <div class="empty-icon">⏳</div>
+          <p>Memuat data pesanan...</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MODAL UBAH STATUS -->
+  <div id="statusModal" class="modal-overlay" onclick="closeModal(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Ubah Status Pesanan</h3>
+        <button class="modal-close" onclick="closeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;">ID Pesanan</p>
+        <p style="font-family:monospace;font-size:1.1rem;font-weight:700;color:var(--primary);letter-spacing:2px;margin-bottom:20px;" id="modalOrderId"></p>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:6px;">Nama Pemesan</p>
+        <p style="font-weight:600;margin-bottom:20px;" id="modalNama"></p>
+        <div class="form-group">
+          <label>Status Baru</label>
+          <div class="status-btn-group">
+            <button class="status-btn menunggu-btn" onclick="setStatus('Menunggu')">⏳ Menunggu</button>
+            <button class="status-btn diproses-btn" onclick="setStatus('Diproses')">⚙️ Diproses</button>
+            <button class="status-btn selesai-btn" onclick="setStatus('Selesai')">✅ Selesai</button>
+            <button class="status-btn ditolak-btn" onclick="setStatus('Ditolak')">❌ Ditolak</button>
+          </div>
+        </div>
+        <div id="modalMsg" style="margin-top:12px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase CDN -->
+  <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+  <script src="admin.js"></script> -->
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mo-PETA | Jasa Pembuatan Peta Penelitian</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">🗺️</div>
+      <span>Mo-PETA</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Beranda</a></li>
+      <li><a href="pesan.html">Pesan</a></li>
+      <li><a href="lacak.html">Lacak Pesanan</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">✦ Jasa Profesional Peta Penelitian</div>
+      <h1>Selamat Datang di <span>Mo-PETA</span></h1>
+      <p>Kami membantu mahasiswa dan peneliti membuat peta penelitian yang akurat, rapi, dan siap digunakan dalam skripsi maupun laporan ilmiah.</p>
+      <a href="pesan.html" class="btn-primary">Pesan Sekarang →</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about">
+    <div class="about-header">
+      <p class="section-label">Tentang Kami</p>
+      <h2 class="section-title">Kenapa Memilih Mo-PETA?</h2>
+      <p class="section-desc">Mo-PETA hadir untuk memudahkan proses pembuatan peta penelitian dengan hasil berkualitas dan pengiriman yang cepat.</p>
+    </div>
+
+    <div class="about-track">
+      <div class="about-card">
+        <div class="icon">🎯</div>
+        <h3>Akurat & Presisi</h3>
+        <p>Peta dibuat dengan data spasial yang tepat sesuai lokasi penelitian Anda.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">⚡</div>
+        <h3>Pengerjaan Cepat</h3>
+        <p>Estimasi pengerjaan 1–3 hari kerja tergantung kompleksitas peta.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">📍</div>
+        <h3>Berbagai Jenis Peta</h3>
+        <p>Tersedia peta lokasi penelitian dan peta titik pengambilan sampel.</p>
+      </div>
+      <div class="about-card">
+        <div class="icon">🔍</div>
+        <h3>Lacak Pesanan</h3>
+        <p>Pantau progress pembuatan peta Anda secara real-time kapan saja.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+    <div class="gallery-header">
+      <p class="section-label">Portofolio</p>
+      <h2 class="section-title">Contoh Peta yang Pernah Dibuat</h2>
+      <p class="section-desc">Geser ke samping untuk melihat lebih banyak contoh peta kami.</p>
+    </div>
+
+    <div class="gallery-scroll-wrap">
+      <div class="gallery-track" id="galleryTrack">
+
+        <!--
+          CARA MENAMBAHKAN FOTO:
+          1. Taruh foto di folder "foto/" (contoh: foto/peta1.jpg)
+          2. Ubah data-src di bawah sesuai nama file foto Anda
+          3. Hapus kelas "no-image" jika sudah ada fotonya
+          Watermark Mo-PETA akan otomatis muncul di atas foto.
+        -->
+
+        <div class="map-card">
+          <div class="map-img-wrap">
+            <canvas class="map-canvas" data-src="foto/peta1.jpg" width="260" height="180"></canvas>
+            <div class="map-img-placeholder no-image">🗺️</div>
+          </div>
+          <div class="map-info">
+            <h4>Peta Lokasi Penelitian</h4>
+            <span>Wilayah Kota</span>
+          </div>
+        </div>
+
+        <div class="map-card">
+          <div class="map-img-wrap">
+            <canvas class="map-canvas" data-src="foto/peta2.jpg" width="260" height="180"></canvas>
+            <div class="map-img-placeholder no-image">📍</div>
+          </div>
+          <div class="map-info">
+            <h4>Peta Titik Pengambilan Sampel</h4>
+            <span>Sungai & DAS</span>
+          </div>
+        </div>
+
+        <div class="map-card">
+          <div class="map-img-wrap">
+            <canvas class="map-canvas" data-src="foto/peta3.jpg" width="260" height="180"></canvas>
+            <div class="map-img-placeholder no-image">🗺️</div>
+          </div>
+          <div class="map-info">
+            <h4>Peta Administrasi Wilayah</h4>
+            <span>Kecamatan & Desa</span>
+          </div>
+        </div>
+
+        <div class="map-card">
+          <div class="map-img-wrap">
+            <canvas class="map-canvas" data-src="foto/peta4.jpg" width="260" height="180"></canvas>
+            <div class="map-img-placeholder no-image">🏛️</div>
+          </div>
+          <div class="map-info">
+            <h4>Peta Lokasi Institusi</h4>
+            <span>Universitas & Lembaga</span>
+          </div>
+        </div>
+
+        <div class="map-card">
+          <div class="map-img-wrap">
+            <canvas class="map-canvas" data-src="foto/peta6.jpg" width="260" height="180"></canvas>
+            <div class="map-img-placeholder no-image">🌊</div>
+          </div>
+          <div class="map-info">
+            <h4>Peta Lokasi Pesisir</h4>
+            <span>Ekosistem Mangrove</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <h2>Siap Membuat Peta Penelitian Anda?</h2>
+    <p>Isi formulir pemesanan dan tim kami akan segera memproses peta Anda dengan teliti dan cepat.</p>
+    <a href="pesan.html" class="btn-primary">Mulai Pesan Sekarang →</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-brand">Mo-PETA</div>
+    <p>Jasa Pembuatan Peta Penelitian Profesional</p>
+    <div class="footer-contacts">
+      <!-- Ganti nomor WA dan username Instagram Anda -->
+      <a href="https://wa.me/6281275540985" target="_blank" class="contact-btn wa">
+        💬 WhatsApp
+      </a>
+      <a href="https://instagram.com/mopeta.official" target="_blank" class="contact-btn ig">
+        📸 Instagram
+      </a>
+    </div>
+    <p class="copyright">© 2025 Mo-PETA. All rights reserved.</p>
+  </footer>
+
+  <!-- Supabase CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+  <script>
+    function toggleNav() {
+      document.getElementById('navLinks').classList.toggle('nav-open');
+    }
+    document.addEventListener('click', function(e) {
+      var nav = document.getElementById('navLinks');
+      if (nav && !nav.contains(e.target) && !e.target.closest('.hamburger')) {
+        nav.classList.remove('nav-open');
+      }
+    });
+  </script>
+</body>
+</html>
